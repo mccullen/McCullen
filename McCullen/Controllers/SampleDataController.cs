@@ -11,11 +11,13 @@ namespace McCullen.Controllers
     [Route("api/[controller]")]
     public class SampleDataController : Controller
     {
+        /*
         private BloggingContext m_context;
         public SampleDataController(BloggingContext context)
         {
             m_context = context;
         }
+        */
         private static string[] Summaries = new[]
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
@@ -25,11 +27,6 @@ namespace McCullen.Controllers
         public IEnumerable<WeatherForecast> WeatherForecasts()
         {
 
-            m_context.Blogs.Add(new Blog()
-            {
-                Url = "TestData.com"
-            });
-            m_context.SaveChanges();
             var rng = new Random();
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {

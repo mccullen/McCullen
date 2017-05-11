@@ -7,7 +7,7 @@ export class App {
     configureRouter(config: RouterConfiguration, router: Router) {
         config.title = 'Aurelia';
         config.map([{
-            route: [ '', 'home' ],
+            route: ['', 'home'],
             name: 'home',
             settings: { icon: 'home' },
             moduleId: PLATFORM.moduleName('../home/home'),
@@ -27,6 +27,13 @@ export class App {
             moduleId: PLATFORM.moduleName('../fetchdata/fetchdata'),
             nav: true,
             title: 'Fetch data'
+        }, {
+            route: 'projects',
+            name: 'projects',
+            settings: { icon: 'knight' },
+            moduleId: PLATFORM.moduleName('../projects/projects'),
+            nav: true,
+            title: 'Projects'
         }]);
 
         this.router = router;

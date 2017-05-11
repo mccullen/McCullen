@@ -34,7 +34,7 @@ namespace McCullen
             services.AddMvc();
 
             string connection = Configuration["ConnectionStrings:DefaultConnection"];
-            services.AddDbContext<BloggingContext>(options => options.UseSqlServer(connection));
+            //services.AddDbContext<BloggingContext>(options => options.UseSqlServer(connection));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
