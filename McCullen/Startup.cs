@@ -8,8 +8,8 @@ using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using EFGetStarted.AspNetCore.NewDb.Models;
 using Microsoft.EntityFrameworkCore;
+using McCullen.Services;
 
 namespace McCullen
 {
@@ -32,7 +32,8 @@ namespace McCullen
         {
             // Add framework services.
             services.AddMvc();
-            string connection = @"Data Source = (localdb)\MSSQLLocalDB; Initial Catalog = Testing; Integrated Security = True; Connect Timeout = 30; Encrypt = False; TrustServerCertificate = True; ApplicationIntent = ReadWrite; MultiSubnetFailover = False";
+
+            string connection = Configuration["ConnectionStrings:DefaultConnection"];
             services.AddDbContext<BloggingContext>(options => options.UseSqlServer(connection));
         }
 

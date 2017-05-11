@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace McCullen.Models
+namespace McCullen.Tests
 {
     public class Class1
     {

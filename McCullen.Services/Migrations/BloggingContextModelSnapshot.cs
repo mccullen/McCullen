@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using EFGetStarted.AspNetCore.NewDb.Models;
+using McCullen.Services;
 
-namespace McCullen.Models.Migrations
+namespace McCullen.Services.Migrations
 {
     [DbContext(typeof(BloggingContext))]
     partial class BloggingContextModelSnapshot : ModelSnapshot
@@ -13,10 +13,10 @@ namespace McCullen.Models.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "1.1.1")
+                .HasAnnotation("ProductVersion", "1.1.2")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("EFGetStarted.AspNetCore.NewDb.Models.Blog", b =>
+            modelBuilder.Entity("McCullen.Blog", b =>
                 {
                     b.Property<int>("BlogId")
                         .ValueGeneratedOnAdd();
@@ -28,7 +28,7 @@ namespace McCullen.Models.Migrations
                     b.ToTable("Blogs");
                 });
 
-            modelBuilder.Entity("EFGetStarted.AspNetCore.NewDb.Models.Post", b =>
+            modelBuilder.Entity("McCullen.Post", b =>
                 {
                     b.Property<int>("PostId")
                         .ValueGeneratedOnAdd();
@@ -46,9 +46,9 @@ namespace McCullen.Models.Migrations
                     b.ToTable("Posts");
                 });
 
-            modelBuilder.Entity("EFGetStarted.AspNetCore.NewDb.Models.Post", b =>
+            modelBuilder.Entity("McCullen.Post", b =>
                 {
-                    b.HasOne("EFGetStarted.AspNetCore.NewDb.Models.Blog", "Blog")
+                    b.HasOne("McCullen.Blog", "Blog")
                         .WithMany("Posts")
                         .HasForeignKey("BlogId")
                         .OnDelete(DeleteBehavior.Cascade);
