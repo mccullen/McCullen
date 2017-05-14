@@ -5,7 +5,7 @@ export class Shell {
     router: Router;
 
     configureRouter(config: RouterConfiguration, router: Router) {
-        config.title = 'Aurelia';
+        config.title = 'McCullen';
         config.map([{
             route: ['', 'home'],
             name: 'home',
@@ -31,7 +31,7 @@ export class Shell {
             route: 'projects',
             name: 'projects',
             settings: { icon: 'knight' },
-            moduleId: PLATFORM.moduleName('../projects/projects'),
+            moduleId: PLATFORM.moduleName('../projects/shell'),
             nav: true,
             title: 'Projects'
         }]);

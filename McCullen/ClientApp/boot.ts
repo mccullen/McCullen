@@ -10,6 +10,5 @@ export function configure(aurelia: Aurelia) {
     if (IS_DEV_BUILD) {
         aurelia.use.developmentLogging();
     }
-
     aurelia.start().then(() => aurelia.setRoot(PLATFORM.moduleName('app/shell/shell')));
 }
