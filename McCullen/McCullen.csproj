@@ -21,6 +21,12 @@
   <ItemGroup>
     <ProjectReference Include="..\McCullen.Services\McCullen.Services.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ClientApp\app\resources\" />
+    <Folder Include="ClientApp\img\" />
+    <Folder Include="ClientApp\lib\" />
+    <Folder Include="ClientApp\styles\" />
+  </ItemGroup>
   <Target Name="RunWebpack" AfterTargets="ComputeFilesToPublish">
     <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
     <Exec Command="npm install" />

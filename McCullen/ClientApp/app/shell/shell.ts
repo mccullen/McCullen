@@ -1,7 +1,7 @@
 import { Aurelia, PLATFORM } from 'aurelia-framework';
 import { Router, RouterConfiguration } from 'aurelia-router';
 
-export class App {
+export class Shell {
     router: Router;
 
     configureRouter(config: RouterConfiguration, router: Router) {
