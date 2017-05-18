@@ -1,3 +1,5 @@
+var webpackConfig = require("./webpack.config");
+//webpackConfig.entry = {};
 // Karma configuration
 // Generated on Sun May 14 2017 20:50:48 GMT-0400 (Eastern Daylight Time)
 
@@ -28,16 +30,9 @@ module.exports = function(config) {
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
         // add webpack as preprocessor
-        'ClientApp/**/*.spec.*': ['webpack', 'sourcemap']
+        'ClientApp/app/**/*.spec.*': ['webpack']
     },
-    webpack: {
-        // karma watches the test entry points
-        // (you don't need to specify the entry option)
-        // webpack watches dependencies
-
-        // webpack configuration
-        devtool: 'inline-source-map'
-    },
+    webpack: webpackConfig,
 
     webpackMiddleware: {
         // webpack-dev-middleware configuration
