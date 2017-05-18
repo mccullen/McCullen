@@ -27,9 +27,23 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
+        // add webpack as preprocessor
+        'ClientApp/**/*.spec.*': ['webpack', 'sourcemap']
+    },
+    webpack: {
+        // karma watches the test entry points
+        // (you don't need to specify the entry option)
+        // webpack watches dependencies
+
+        // webpack configuration
+        devtool: 'inline-source-map'
     },
 
-
+    webpackMiddleware: {
+        // webpack-dev-middleware configuration
+        // i. e.
+        stats: 'errors-only'
+    },
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter

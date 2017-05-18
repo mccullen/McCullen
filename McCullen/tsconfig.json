@@ -7,9 +7,8 @@
     "emitDecoratorMetadata": true,
     "skipDefaultLibCheck": true,
     "allowJs": true,
-    "lib": [ "es2015", "dom" ],
-    "types": [ "node" ]
+    "lib": [ "es2015", "dom" ]
   },
-  "exclude": [ "bin", "node_modules", "ClientApp/app/**/*.spec.*" ],
+  "exclude": [ "bin", "node_modules" ],
   "atom": { "rewriteTsconfig": false }
 }

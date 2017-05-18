@@ -1,6 +1,6 @@
-﻿///<reference path="../../../../node_modules/@types/jasmine/index.d.ts" />
+﻿import { boardFactory } from "./boardFactory";
 
-import { boardFactory } from "./boardFactory"
+
 describe("Board Factory", function () {
 
     it("Creates a board", function () {
