@@ -29,7 +29,7 @@ module.exports = function(config) {
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
         // all typescript files need to be preprocessed and transpiled into javascript.
-        '**/*.ts': ['karma-typescript']
+        'ClientApp/app/**/*.ts': ['karma-typescript']
     },
     karmaTypescriptConfig: {
         bundlerOptions: {
@@ -44,7 +44,9 @@ module.exports = function(config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress', "karma-typescript"],
+
+    // Note: Add "karma-typescript" to get coverage files generated.
+    reporters: ['progress'],
 
 
     // web server port
