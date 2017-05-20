@@ -1,6 +1,6 @@
-	var computerPlayerFactory = function (spec) {
+	var computerPlayerFactory: any = function (spec) {
 
-		var computerPlayer = {};
+		var computerPlayer: any = {};
 
 		// Private variables
 
@@ -11,8 +11,8 @@
 			XWin: 1
 		});
 
-		var mMinimax = function (board, row, column) {
-
+		var mMinimax: any = function (board, row, column) {
+            var response;
 			var iRow = 0;
 			var iColumn = 0;
 

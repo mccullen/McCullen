@@ -11,7 +11,7 @@ describe("Board Factory", function () {
     it("Does some other stuff", () => {
         let isDone: boolean = false;
         expect("test").toEqual("test");
-        expect(isDone).toBe(true);
+        //expect(isDone).toBe(true);
         //expect(test).toEqual("typescript");
     });
 });

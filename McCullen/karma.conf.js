@@ -13,9 +13,11 @@ module.exports = function(config) {
     frameworks: ['jasmine', "karma-typescript"],
 
 
-    // list of files / patterns to load in the browser
+    // list of files / patterns to load in the browser. Add anything that might be needed
+    // to be loaded! Including those files that you are going to import in!!!
     files: [
-      'ClientApp/app/**/*.spec.*'
+      'ClientApp/app/**/*.js',
+      'ClientApp/app/**/*.ts'
     ],
 
 
@@ -26,11 +28,13 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
+        // all typescript files need to be preprocessed and transpiled into javascript.
         '**/*.ts': ['karma-typescript']
     },
     karmaTypescriptConfig: {
         bundlerOptions: {
             transforms: [
+                // Need this to use es6 imports and exports
                 require("karma-typescript-es6-transform")()
             ]
         },
