@@ -27,12 +27,14 @@
     "karma-chrome-launcher": "^2.1.1",
     "karma-jasmine": "^1.1.0",
     "karma-sourcemap-loader": "^0.3.7",
+    "karma-typescript": "^3.0.2",
+    "karma-typescript-es6-transform": "^1.0.1",
     "karma-webpack": "^2.0.3",
     "style-loader": "^0.16.1",
     "ts-loader": "^2.0.3",
     "typescript": "^2.2.2",
     "url-loader": "^0.5.8",
-    "webpack": "^2.3.3",
+    "webpack": "^2.5.1",
     "webpack-hot-middleware": "^2.18.0"
   }
 }

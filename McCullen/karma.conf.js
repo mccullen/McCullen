@@ -1,5 +1,3 @@
-var webpackConfig = require("./webpack.config");
-//webpackConfig.entry = {};
 // Karma configuration
 // Generated on Sun May 14 2017 20:50:48 GMT-0400 (Eastern Daylight Time)
 
@@ -12,7 +10,7 @@ module.exports = function(config) {
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['jasmine'],
+    frameworks: ['jasmine', "karma-typescript"],
 
 
     // list of files / patterns to load in the browser
@@ -25,24 +23,24 @@ module.exports = function(config) {
     exclude: [
     ],
 
-
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-        // add webpack as preprocessor
-        'ClientApp/app/**/*.spec.*': ['webpack']
+        '**/*.ts': ['karma-typescript']
     },
-    webpack: webpackConfig,
+    karmaTypescriptConfig: {
+        bundlerOptions: {
+            transforms: [
+                require("karma-typescript-es6-transform")()
+            ]
+        },
+        tsconfig: './tsconfig.json'
+    },
 
-    webpackMiddleware: {
-        // webpack-dev-middleware configuration
-        // i. e.
-        stats: 'errors-only'
-    },
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress'],
+    reporters: ['progress', "karma-typescript"],
 
 
     // web server port
