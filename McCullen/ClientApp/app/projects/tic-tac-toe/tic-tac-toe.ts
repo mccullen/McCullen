@@ -20,6 +20,7 @@ export class TicTacToe {
     public showState: boolean = false;
     public showDepth: boolean = false;
     public playOption: PlayOption;
+    // Would it be better to inject a board object instead of the factory?
     constructor(boardFactory: any, computerPlayerFactory: any) {
         //this.board_ = boardFactory
     }
