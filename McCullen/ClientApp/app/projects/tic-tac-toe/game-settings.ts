@@ -36,4 +36,14 @@ export class GameSettings {
     }
     public activate(model) {
     }
+    public getSettings() {
+        debugger;
+        return {
+            nRows: this.nRows,
+            nColumns: this.nColumns,
+            showState: this.showState,
+            showDepth: this.showDepth,
+            selectedPlayOption: this.selectedPlayOption
+        };
+    }
 }

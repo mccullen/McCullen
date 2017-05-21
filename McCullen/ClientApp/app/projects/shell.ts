@@ -1,18 +1,7 @@
 ﻿import { Aurelia, PLATFORM } from 'aurelia-framework';
 import { Router, RouterConfiguration } from 'aurelia-router';
 
-/*
-import { boardFactory } from "./boardFactory";
-var boardFactory2 = boardFactory as any;
-boardFactory2.test = "hi";
-var jeff = {
-    test: "someValue" as string
-};
-jeff.test = "myprop";
-*/
 export class Shell {
-    //public prop: any = boardFactory.test;
-    public prop: any = "hi";
 
     public router: Router;
 
