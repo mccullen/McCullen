@@ -36,6 +36,7 @@ module.exports = (env) => {
                 includeSubModules: [
                     {
                         moduleId: 'aurelia-dialog'
+                        //,include: /[^\.]\.(js|html|ts)$/
                     }
                 ],
                 contextMap: {
