@@ -1,6 +1,7 @@
 "use strict";
 
 var boardFactory: any = function (spec) {
+    spec = spec || {};
     var board: any = {};
 
     // Enum of the states. Could also do a getStates function 
