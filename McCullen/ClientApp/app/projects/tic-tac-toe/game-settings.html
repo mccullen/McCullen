@@ -1,19 +1,63 @@
 ﻿<template>
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Modal title</h5>
-        <button click.delegate="controller.close()" type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <p>Modal body text goes here.</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary">Save changes</button>
-        <button click.delegate="controller.close()" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <!-- Header -->
+            <div class="modal-header">
+                <h3 class="modal-title">Game Settings</h3>
+                <button click.delegate="controller.close()" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <!-- Body -->
+            <div class="modal-body">
+                <form>
+                    ${nRows}
+                    ${nColumns}
+                    ${showState}
+                    ${showDepth}
+                    ${selectedPlayOption.name}
+                    <!-- Number of Rows -->
+                    <div class="form-group">
+                        <label>Number of Rows</label>
+                        <input type="number" value.bind="nRows" class="form-control" min="${ minRows }" max.bind="maxRows">
+                    </div>
+
+                    <!-- Number of Columns -->
+                    <div class="form-group">
+                        <label>Number of Columns</label>
+                        <input type="number" value.bind="nColumns" class="form-control" min="${ minColumns }" max="${ maxColumns }">
+                    </div>
+
+                    <!-- Show State -->
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" checked.bind="showState">Show state?
+                        </label>
+                    </div>
+
+                    <!-- Show depth -->
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" checked.bind="showDepth">Show depth?
+                        </label>
+                    </div>
+
+                    <!-- Play Option -->
+                    <label>Select an option:</label>
+                    <div class="radio" repeat.for="option of playOptions">
+                        <label>
+                            <input type="radio" name="play-options-group" model.bind="option" checked.bind="selectedPlayOption">
+                            ${ option.name }
+                        </label>
+                    </div>
+                </form>
+            </div>
+            <!-- Footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary">Ok</button>
+                <button click.delegate="controller.close()" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
     </div>
-  </div>
 </template>
