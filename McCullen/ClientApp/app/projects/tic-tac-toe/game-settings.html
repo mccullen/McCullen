@@ -12,17 +12,16 @@
             <!-- Body -->
             <div class="modal-body">
                 <form>
-                    ${selectedPlayOption.name}
                     <!-- Number of Rows -->
                     <div class="form-group">
                         <label>Number of Rows</label>
-                        <input type="number" value.bind="nRows" class="form-control" min="${ minRows }" max.bind="maxRows">
+                        <input type="number" model.bind="nRows" class="form-control" min="${ minRows }" max.bind="maxRows">
                     </div>
 
                     <!-- Number of Columns -->
                     <div class="form-group">
                         <label>Number of Columns</label>
-                        <input type="number" value.bind="nColumns" class="form-control" min="${ minColumns }" max="${ maxColumns }">
+                        <input type="number" model.bind="nColumns" class="form-control" min="${ minColumns }" max="${ maxColumns }">
                     </div>
 
                     <!-- Show State -->
@@ -31,7 +30,6 @@
                             <input type="checkbox" checked.bind="showState">Show state?
                         </label>
                     </div>
-
                     <!-- Show depth -->
                     <div class="checkbox">
                         <label>
@@ -43,8 +41,8 @@
                     <label>Select an option:</label>
                     <div class="radio" repeat.for="option of playOptions">
                         <label>
-                            <input type="radio" name="play-options-group" model.two-way="option" checked.bind="selectedPlayOption">
-                            ${ option.name }
+                            <input type="radio" name="play-options-group" model.bind="option" checked.two-way="$parent.selectedPlayOption">
+                            ${ option.value }
                         </label>
                     </div>
                 </form>

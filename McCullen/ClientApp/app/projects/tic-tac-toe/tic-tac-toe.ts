@@ -1,16 +1,17 @@
 ﻿import { boardFactory } from "./boardFactory";
 import { computerPlayerFactory } from "./computerPlayerFactory";
-import { inject } from "aurelia-framework";
+import { inject, autoinject } from "aurelia-framework";
 import { DialogService } from "aurelia-dialog";
-import { GameSettings } from "./game-settings";
+import { GameSettings, PlayOption } from "./game-settings";
 import { Router } from "aurelia-router";
+import { KeyValue } from "../../../core/KeyValue";
 
-@inject(boardFactory, computerPlayerFactory, DialogService, Router)
+
+//@inject(boardFactory, computerPlayerFactory, DialogService, Router, BindingSignaler)
+@autoinject()
 export class TicTacToe {
     private board_: any;
     private computerPlayer_: any;
-    public dialogService: DialogService;
-    public router: Router;
 
 
     public nRows: number;
@@ -18,9 +19,9 @@ export class TicTacToe {
     public showState: boolean = false;
     public showDepth: boolean = false;
     public gameSettings: any;
-    public selectedPlayOption: any;
+    public selectedPlayOption: KeyValue<PlayOption, string>;
     // Would it be better to inject a board object instead of the factory?
-    constructor(boardFactory: any, computerPlayerFactory: any, dialogService: DialogService, router: Router) {
+    constructor(boardFactory: any, computerPlayerFactory: any, public dialogService: DialogService, public router: Router) {
         //this.board_ = boardFactory
         this.dialogService = dialogService;
         this.router = router;
