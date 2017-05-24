@@ -2,7 +2,9 @@
     <h1>Tic-Tac-Toe!</h1>
     <table>
         <tr repeat.for="row of board.getPieces()">
-            <td repeat.for="piece of row"><button>${cell}X</button></td>
+            <td repeat.for="piece of row">
+                <button click.delegate="playPiece($parent.$index, $index)">${cell}X</button>
+            </td>
         </tr>
     </table>
 

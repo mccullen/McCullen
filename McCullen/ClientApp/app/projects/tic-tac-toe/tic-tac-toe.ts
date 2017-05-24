@@ -46,6 +46,9 @@ export class TicTacToe {
                 }
             });
     }
+    public playPiece(row: number, column: number) {
+        debugger;
+    }
     private play() {
         if (this.selectedPlayOption.key === PlayOption.HumanVsHuman) {
 
