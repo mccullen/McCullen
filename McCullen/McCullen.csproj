@@ -22,7 +22,6 @@
     <ProjectReference Include="..\McCullen.Services\McCullen.Services.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="ClientApp\app\resources\" />
     <Folder Include="ClientApp\img\" />
     <Folder Include="ClientApp\lib\" />
     <Folder Include="ClientApp\styles\" />

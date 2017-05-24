@@ -4,22 +4,23 @@ import { inject, autoinject } from "aurelia-framework";
 import { DialogService } from "aurelia-dialog";
 import { GameSettings, PlayOption } from "./game-settings";
 import { Router } from "aurelia-router";
-import { KeyValue } from "../../../core/KeyValue";
+import { KeyValue } from "../../resources/KeyValue";
 
 
 //@inject(boardFactory, computerPlayerFactory, DialogService, Router, BindingSignaler)
 @autoinject()
 export class TicTacToe {
-    private board_: any;
-    private computerPlayer_: any;
+    private board: any;
+    private computerPlayer: any;
 
 
     public nRows: number;
     public nColumns: number;
-    public showState: boolean = false;
-    public showDepth: boolean = false;
+    public showState: boolean;
+    public showDepth: boolean;
     public gameSettings: any;
     public selectedPlayOption: KeyValue<PlayOption, string>;
+
     // Would it be better to inject a board object instead of the factory?
     constructor(boardFactory: any, computerPlayerFactory: any, public dialogService: DialogService, public router: Router) {
         //this.board_ = boardFactory
@@ -27,6 +28,7 @@ export class TicTacToe {
         this.router = router;
     }
     public activate() {
+        // Get settings from the user
         this.dialogService.open({ viewModel: GameSettings })
             .whenClosed(response => {
                 if (!response.wasCancelled) {
@@ -36,9 +38,24 @@ export class TicTacToe {
                     this.showState = response.output.showState;
                     this.showDepth = response.output.showDepth;
                     this.selectedPlayOption = response.output.selectedPlayOption;
-                    //this.router.navigate("#/projects/tic-tac-toe/", response.output);
-                    //this.router.navigateToRoute("tic-tac-toe", response.output);
+
+                    this.board = boardFactory({numRows: this.nRows, numColumns: this.nColumns});
+                    this.computerPlayer = computerPlayerFactory();
+
+                    this.play();
                 }
             });
+    }
+    private play() {
+        if (this.selectedPlayOption.key === PlayOption.HumanVsHuman) {
+
+            console.log("hvh");
+        } else if (this.selectedPlayOption.key === PlayOption.HumanVsComputer) {
+
+            console.log("hvc");
+        } else {
+
+            console.log("cvc");
+        }
     }
 }

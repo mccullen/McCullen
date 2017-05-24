@@ -1,9 +1,16 @@
 ﻿<template>
     <h1>Tic-Tac-Toe!</h1>
+    <table>
+        <tr repeat.for="row of board.getPieces()">
+            <td repeat.for="piece of row"><button>${cell}X</button></td>
+        </tr>
+    </table>
+
     ${nRows}<br>
     ${nColumns}<br>
     ${showState}<br>
     ${showDepth}<br>
     ${selectedPlayOption.value}<br>
+    ${selectedPlayOption.key}<br>
 
 </template>
