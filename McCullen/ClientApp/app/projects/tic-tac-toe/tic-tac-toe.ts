@@ -47,7 +47,20 @@ export class TicTacToe {
             });
     }
     public playPiece(row: number, column: number) {
-        debugger;
+        // Disable square
+        let square = document.getElementById(this.getSquareId(row, column)) as HTMLButtonElement;
+        square.disabled = true;
+        square.innerHTML = this.board.getCurrentPlayer();
+        this.board.playPiece({row: row, column: column});
+
+        if (this.selectedPlayOption.key === PlayOption.HumanVsComputer) {
+            let bestMove = this.computerPlayer.getBestMove(this.board);
+            let computerSquare = document.getElementById(this.getSquareId(bestMove.row, bestMove.column)) as HTMLButtonElement;
+            computerSquare.innerHTML = this.board.getCurrentPlayer();
+            this.board.playPiece({row: bestMove.row, column: bestMove.column});
+            computerSquare.disabled = true;
+            debugger;
+        }
     }
     private play() {
         if (this.selectedPlayOption.key === PlayOption.HumanVsHuman) {
@@ -60,5 +73,8 @@ export class TicTacToe {
 
             console.log("cvc");
         }
+    }
+    private getSquareId(row: number, column: number) {
+        return "sq" + "-" + row + "-" + column;
     }
 }

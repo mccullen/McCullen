@@ -3,7 +3,7 @@
     <table>
         <tr repeat.for="row of board.getPieces()">
             <td repeat.for="piece of row">
-                <button click.delegate="playPiece($parent.$index, $index)">${cell}X</button>
+                <button class="square" id="${getSquareId($parent.$index, $index)}" click.delegate="playPiece($parent.$index, $index)">${piece}</button>
             </td>
         </tr>
     </table>
