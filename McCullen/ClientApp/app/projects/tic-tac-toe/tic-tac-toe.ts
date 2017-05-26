@@ -59,6 +59,12 @@ export class TicTacToe {
             computerSquare.innerHTML = this.board.getCurrentPlayer();
             this.board.playPiece({row: bestMove.row, column: bestMove.column});
             computerSquare.disabled = true;
+            let state = this.board.getState();
+            if (state === this.board.state.draw) {
+                alert("draw");
+            } else if (state !== this.board.state.unfinished) {
+                alert("I win!");
+            }
             debugger;
         }
     }
