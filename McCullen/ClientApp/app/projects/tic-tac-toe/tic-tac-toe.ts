@@ -85,4 +85,7 @@ export class TicTacToe {
     private getSquareId(row: number, column: number) {
         return "sq" + "-" + row + "-" + column;
     }
+    onShowStateChange() {
+        return true;
+    }
 }

@@ -1,14 +1,15 @@
 ﻿<template>
+    <require from="./tic-tac-toe.css"></require>
     <h1>Tic-Tac-Toe!</h1>
     <table>
         <tr repeat.for="row of board.getPieces()">
             <td repeat.for="piece of row">
-                <button class="square" id="${getSquareId($parent.$index, $index)}" click.delegate="playPiece($parent.$index, $index)">${piece}</button>
+                <button class="square ${ showState ? 'show-state' : ''} ${ showDepth ? 'show-depth' : '' }" id="${getSquareId($parent.$index, $index)}" click.delegate="playPiece($parent.$index, $index)">${piece}</button>
             </td>
         </tr>
     </table>
 
-    <input type="checkbox" checked.bind="showState" > Show state? <br>
+    <input click.delegate="onShowStateChange()" type="checkbox" checked.bind="showState" > Show state? <br>
     <input type="checkbox" checked.bind="showDepth" > Show depth? <br>
 
     ${nRows}<br>
