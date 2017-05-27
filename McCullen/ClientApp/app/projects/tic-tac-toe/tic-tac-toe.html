@@ -4,7 +4,7 @@
     <table>
         <tr repeat.for="row of board.getPieces()">
             <td repeat.for="piece of row">
-                <button class="square ${ showState ? 'show-state' : ''} ${ showDepth ? 'show-depth' : '' }" id="${getSquareId($parent.$index, $index)}" click.delegate="playPiece($parent.$index, $index)">${piece}</button>
+                <button class="square ${ boardInfo[$parent.$index][$index].state }" id="${getSquareId($parent.$index, $index)}" click.delegate="playPiece($parent.$index, $index)">${boardInfo[$parent.$index][$index].display}</button>
             </td>
         </tr>
     </table>

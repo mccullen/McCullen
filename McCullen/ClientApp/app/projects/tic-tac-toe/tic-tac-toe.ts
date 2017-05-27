@@ -6,6 +6,11 @@ import { GameSettings, PlayOption } from "./game-settings";
 import { Router } from "aurelia-router";
 import { KeyValue } from "../../resources/KeyValue";
 
+class SquareInfo {
+    state: string; // win, lose, played
+    display: string; // depth or piece to display in square
+    depth: number;
+}
 @autoinject()
 export class TicTacToe {
     private board: any;
@@ -18,6 +23,7 @@ export class TicTacToe {
     public showDepth: boolean;
     public gameSettings: any;
     public selectedPlayOption: KeyValue<PlayOption, string>;
+    boardInfo: SquareInfo[][];
 
     // Would it be better to inject a board object instead of the factory?
     constructor(
@@ -26,6 +32,11 @@ export class TicTacToe {
         //this.board_ = boardFactory
         this.dialogService = dialogService;
         this.router = router;
+    }
+    currentPlayerWillWin(state) {
+        let currentPlayer = this.board.getCurrentPlayer();
+        return (currentPlayer === this.board.piece.x && state === this.board.state.xWon) ||
+            (currentPlayer == this.board.piece.o && state === this.board.state.oWon);
     }
     public activate() {
         // Get settings from the user
@@ -42,7 +53,23 @@ export class TicTacToe {
                     this.board = boardFactory({numRows: this.nRows, numColumns: this.nColumns});
                     this.computerPlayer = computerPlayerFactory();
 
-                    this.play();
+                    let moveValues = this.computerPlayer.getMoveValues(this.board);
+                    for (let iMove = 0; iMove < this.nRows * this.nColumns; ++iMove) {
+                        let squareInfo: SquareInfo = new SquareInfo();
+                        squareInfo.depth = moveValues[iMove].depth;
+                        if (this.currentPlayerWillWin(moveValues[iMove].state)) {
+                            squareInfo.state = "win";
+                        } else if (moveValues[iMove].state == this.board.state.draw) {
+                            squareInfo.state = "tie";
+                        } else {
+                            squareInfo.state = "lose";
+                        }
+                        squareInfo.display = this.showDepth ? squareInfo.depth.toString() : "";
+                        let row = moveValues[iMove].row;
+                        let column = moveValues[iMove].column;
+                        this.boardInfo[row][column] = squareInfo;
+                    }
+                    debugger;
                 }
             });
     }
@@ -87,5 +114,15 @@ export class TicTacToe {
     }
     onShowStateChange() {
         return true;
+    }
+    getStateClass(row, column) {
+        debugger;
+        let stateClass = "";
+        if (this.showState === true) {
+            stateClass = "win";
+        } else {
+            stateClass = "lose";
+        }
+        return stateClass;
     }
 }
