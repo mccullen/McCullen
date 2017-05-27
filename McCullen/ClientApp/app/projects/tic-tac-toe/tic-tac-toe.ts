@@ -6,8 +6,6 @@ import { GameSettings, PlayOption } from "./game-settings";
 import { Router } from "aurelia-router";
 import { KeyValue } from "../../resources/KeyValue";
 
-
-//@inject(boardFactory, computerPlayerFactory, DialogService, Router, BindingSignaler)
 @autoinject()
 export class TicTacToe {
     private board: any;
@@ -22,7 +20,9 @@ export class TicTacToe {
     public selectedPlayOption: KeyValue<PlayOption, string>;
 
     // Would it be better to inject a board object instead of the factory?
-    constructor(boardFactory: any, computerPlayerFactory: any, public dialogService: DialogService, public router: Router) {
+    constructor(
+            public dialogService: DialogService,
+            public router: Router) {
         //this.board_ = boardFactory
         this.dialogService = dialogService;
         this.router = router;
@@ -47,25 +47,27 @@ export class TicTacToe {
             });
     }
     public playPiece(row: number, column: number) {
-        // Disable square
+        // Disable square of the move just played
         let square = document.getElementById(this.getSquareId(row, column)) as HTMLButtonElement;
         square.disabled = true;
         square.innerHTML = this.board.getCurrentPlayer();
         this.board.playPiece({row: row, column: column});
 
         if (this.selectedPlayOption.key === PlayOption.HumanVsComputer) {
+            // It is the computer's turn. Make a move and then disable that square
             let bestMove = this.computerPlayer.getBestMove(this.board);
             let computerSquare = document.getElementById(this.getSquareId(bestMove.row, bestMove.column)) as HTMLButtonElement;
             computerSquare.innerHTML = this.board.getCurrentPlayer();
             this.board.playPiece({row: bestMove.row, column: bestMove.column});
             computerSquare.disabled = true;
+
+            // Check the state of the board to see if the computer wins
             let state = this.board.getState();
             if (state === this.board.state.draw) {
                 alert("draw");
             } else if (state !== this.board.state.unfinished) {
                 alert("I win!");
             }
-            debugger;
         }
     }
     private play() {
