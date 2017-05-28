@@ -1,13 +1,13 @@
 ﻿import { boardFactory } from "./boardFactory";
 import { computerPlayerFactory } from "./computerPlayerFactory";
-import { inject, autoinject } from "aurelia-framework";
+import { inject, autoinject, computedFrom } from "aurelia-framework";
 import { DialogService } from "aurelia-dialog";
 import { GameSettings, PlayOption } from "./game-settings";
 import { Router } from "aurelia-router";
 import { KeyValue } from "../../resources/KeyValue";
 
 class SquareInfo {
-    state: string; // win, lose, played
+    state: string; // win, lose, tie, played
     display: string; // depth or piece to display in square
     depth: number;
 }
@@ -23,13 +23,13 @@ export class TicTacToe {
     public showDepth: boolean;
     public gameSettings: any;
     public selectedPlayOption: KeyValue<PlayOption, string>;
-    boardInfo: SquareInfo[][];
+    //boardInfo: any[] = [];
+    boardInfo: SquareInfo[][] = []; // don't forget to initialize here!!!
 
     // Would it be better to inject a board object instead of the factory?
     constructor(
             public dialogService: DialogService,
             public router: Router) {
-        //this.board_ = boardFactory
         this.dialogService = dialogService;
         this.router = router;
     }
@@ -49,12 +49,22 @@ export class TicTacToe {
                     this.showState = response.output.showState;
                     this.showDepth = response.output.showDepth;
                     this.selectedPlayOption = response.output.selectedPlayOption;
-
                     this.board = boardFactory({numRows: this.nRows, numColumns: this.nColumns});
                     this.computerPlayer = computerPlayerFactory();
 
+                    // Create empty board with no columns
+                    for (let row = 0; row < this.nRows; ++row) {
+                        this.boardInfo.push(new Array<SquareInfo>());
+                    }
+
+                    this.updateBoardInfo();
+                }
+            });
+    }
+    updateBoardInfo() {
+                    // Populate the boardInfo array with the values to display
                     let moveValues = this.computerPlayer.getMoveValues(this.board);
-                    for (let iMove = 0; iMove < this.nRows * this.nColumns; ++iMove) {
+                    for (let iMove = 0; iMove < moveValues.length; ++iMove) {
                         let squareInfo: SquareInfo = new SquareInfo();
                         squareInfo.depth = moveValues[iMove].depth;
                         if (this.currentPlayerWillWin(moveValues[iMove].state)) {
@@ -69,9 +79,6 @@ export class TicTacToe {
                         let column = moveValues[iMove].column;
                         this.boardInfo[row][column] = squareInfo;
                     }
-                    debugger;
-                }
-            });
     }
     public playPiece(row: number, column: number) {
         // Disable square of the move just played
@@ -79,6 +86,7 @@ export class TicTacToe {
         square.disabled = true;
         square.innerHTML = this.board.getCurrentPlayer();
         this.board.playPiece({row: row, column: column});
+        this.updateBoardInfo();
 
         if (this.selectedPlayOption.key === PlayOption.HumanVsComputer) {
             // It is the computer's turn. Make a move and then disable that square
@@ -86,6 +94,7 @@ export class TicTacToe {
             let computerSquare = document.getElementById(this.getSquareId(bestMove.row, bestMove.column)) as HTMLButtonElement;
             computerSquare.innerHTML = this.board.getCurrentPlayer();
             this.board.playPiece({row: bestMove.row, column: bestMove.column});
+            this.updateBoardInfo();
             computerSquare.disabled = true;
 
             // Check the state of the board to see if the computer wins
