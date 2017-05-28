@@ -1,6 +1,6 @@
 ﻿import { boardFactory } from "./boardFactory";
 import { computerPlayerFactory } from "./computerPlayerFactory";
-import { inject, autoinject, computedFrom } from "aurelia-framework";
+import { inject, autoinject, bindable } from "aurelia-framework";
 import { DialogService } from "aurelia-dialog";
 import { GameSettings, PlayOption } from "./game-settings";
 import { Router } from "aurelia-router";
@@ -15,7 +15,9 @@ export class TicTacToe {
 
     public nRows: number;
     public nColumns: number;
+    @bindable
     public showState: boolean;
+    @bindable
     public showDepth: boolean;
     public gameSettings: any;
     public selectedPlayOption: KeyValue<PlayOption, string>;
@@ -27,9 +29,13 @@ export class TicTacToe {
         this.dialogService = dialogService;
         this.router = router;
     }
+    attached() {
+
+        this.updateSquareDisplay();
+    }
     public activate() {
         // Get settings from the user
-        this.dialogService.open({ viewModel: GameSettings })
+        return this.dialogService.open({ viewModel: GameSettings })
             .whenClosed(response => {
                 if (!response.wasCancelled) {
                     console.log(response.output);
@@ -41,10 +47,15 @@ export class TicTacToe {
                     this.board = boardFactory({numRows: this.nRows, numColumns: this.nColumns});
                     this.computerPlayer = computerPlayerFactory();
 
+                    //this.updateSquareDisplay();
                 }
             });
     }
+    private readonly winClass: string = "win";
+    private readonly loseClass: string = "lose";
+    private readonly tieClass: string = "tie";
     playPiece(row: number, column: number) {
+
         // Disable square of the move just played
         let square = document.getElementById(this.getSquareId(row, column)) as HTMLButtonElement;
         square.disabled = true;
@@ -52,6 +63,43 @@ export class TicTacToe {
         // Place piece
         square.innerHTML = this.board.getCurrentPlayer();
         this.board.playPiece({row: row, column: column});
+
+        // Remove state color indication classes and update the non-empty squares
+        $(square).removeClass(this.stateClasses);
+        this.updateSquareDisplay();
+    }
+    private get stateClasses() {
+        return this.winClass + " " + this.loseClass + " " + this.tieClass;
+    }
+    private currentPlayerWins(state) {
+        let currentPlayer = this.board.getCurrentPlayer();
+        return (currentPlayer === this.board.piece.x && state === this.board.state.xWon) ||
+            (currentPlayer === this.board.piece.o && state === this.board.state.oWon);
+    }
+    private readonly squareClass = "square";
+    private updateSquareDisplay() {
+        $("." + this.squareClass).removeClass(this.stateClasses);
+
+        if (this.showState) {
+            let moveValues = this.computerPlayer.getMoveValues(this.board);
+            for (let iMove = 0; iMove < moveValues.length; ++iMove) {
+                let square = this.getSquare(moveValues[iMove].row, moveValues[iMove].column);
+
+                if (this.showDepth) {
+                    square.innerHTML = moveValues[iMove].depth;
+                } else {
+                    square.innerHTML = "";
+                }
+
+                if (moveValues[iMove].state === this.board.state.draw) {
+                    $(square).addClass(this.tieClass);
+                } else if (this.currentPlayerWins(moveValues[iMove].state)) {
+                    $(square).addClass(this.winClass);
+                } else {
+                    $(square).addClass(this.loseClass);
+                }
+            }
+        }
     }
     public onSquareClick(row: number, column: number) {
         this.playPiece(row, column);
@@ -70,32 +118,17 @@ export class TicTacToe {
             }
         }
     }
-    private play() {
-        if (this.selectedPlayOption.key === PlayOption.HumanVsHuman) {
-
-            console.log("hvh");
-        } else if (this.selectedPlayOption.key === PlayOption.HumanVsComputer) {
-
-            console.log("hvc");
-        } else {
-
-            console.log("cvc");
-        }
-    }
     private getSquareId(row: number, column: number) {
         return "sq" + "-" + row + "-" + column;
     }
-    onShowStateChange() {
-        return true;
+    private getSquare(row: number, column: number): HTMLElement {
+        let squareId = this.getSquareId(row, column);
+        return document.getElementById(squareId) as HTMLElement;
     }
-    getStateClass(row, column) {
-        debugger;
-        let stateClass = "";
-        if (this.showState === true) {
-            stateClass = "win";
-        } else {
-            stateClass = "lose";
-        }
-        return stateClass;
+    showStateChanged(oldValue: boolean, newValue: boolean) {
+        this.updateSquareDisplay();
+    }
+    showDepthChanged(oldValue: boolean, newValue: boolean) {
+        this.updateSquareDisplay();
     }
 }
