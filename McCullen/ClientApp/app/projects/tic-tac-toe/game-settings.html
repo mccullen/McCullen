@@ -45,9 +45,7 @@
                             ${ option.value }
                         </label>
                     </div>
-                    Key: ${selectedPlayOption.key}
-                    Value: ${selectedPlayOption.value}
-                    <!-- Play Order -->
+                    <!-- Play Order (only displayed for human versus computer option) -->
                     <div class="checkbox" if.bind="selectedPlayOption.key === 1">
                         <label>
                             <input type="checkbox" checked.bind="humanFirst">Go first?

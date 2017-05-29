@@ -33,7 +33,7 @@ export class TicTacToe {
     attached() {
 
         this.updateSquareDisplay();
-        if (!this.humanFirst) {
+        if (this.selectedPlayOption.key === PlayOption.HumanVsComputer && !this.humanFirst) {
             this.makeComputerPlayerMove();
         }
         if (this.selectedPlayOption.key === PlayOption.ComputerVsComputer) {
