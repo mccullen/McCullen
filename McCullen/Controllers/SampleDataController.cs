@@ -41,6 +41,11 @@ namespace McCullen.Controllers
         {
             return View();
         }
+        [HttpGet("[action]")]
+        public IActionResult Test2()
+        {
+            return View();
+        }
 
         public class WeatherForecast
         {
