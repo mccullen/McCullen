@@ -5,7 +5,7 @@
     <table>
         <tr repeat.for="row of board.getPieces()">
             <td repeat.for="piece of row">
-                <button class="square" id="${getSquareId($parent.$index, $index)}" 
+                <button class="btn square" id="${getSquareId($parent.$index, $index)}" 
                         click.delegate="onSquareClick($parent.$index, $index)">
                 </button>
             </td>
@@ -14,13 +14,5 @@
 
     <input type="checkbox" checked.bind="showState" > Show state? <br>
     <input type="checkbox" checked.bind="showDepth" > Show depth? <br>
-
-    ${nRows}<br>
-    ${nColumns}<br>
-    Show state?: ${showState}<br>
-    Show depth?: ${showDepth}<br>
-    Human First?: ${humanFirst}<br>
-    ${selectedPlayOption.value}<br>
-    ${selectedPlayOption.key}<br>
     <button click.delegate="onReset()">Reset</button>
 </template>

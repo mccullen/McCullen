@@ -81,6 +81,7 @@ export class TicTacToe {
 
         // Place piece
         square.innerHTML = this.board.getCurrentPlayer();
+        $(square).fadeIn(3000);
         this.board.playPiece({ row: row, column: column });
         this.currentPlayer = this.board.getCurrentPlayer();
 

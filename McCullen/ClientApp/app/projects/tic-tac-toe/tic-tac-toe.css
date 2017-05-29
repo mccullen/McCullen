@@ -2,16 +2,16 @@
 .square {
     color: black;
     background-color: rgba(0, 255, 255, 0.5);
-    width: 25px;
-    height: 25px;
+    width: 65px;
+    height: 65px;
 }
 
 .win {
-    background-color: rgba(75, 200, 56, 0.5)
+    background-color: rgba(75, 200, 56, 0.5);
 }
 
 .lose {
-    background-color: rgba(255, 0, 0, 0.5)
+    background-color: rgba(255, 0, 0, 0.5);
 }
 
 .tie {
