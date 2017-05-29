@@ -11,6 +11,12 @@ export class Fetchdata {
             .then(data => {
                 this.forecasts = data;
             });
+
+        http.fetch('/api/SampleData/Test')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("test").innerHTML = data;
+            });
     }
 }
 

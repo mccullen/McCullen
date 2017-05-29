@@ -36,6 +36,12 @@ namespace McCullen.Controllers
             });
         }
 
+        [HttpGet("[action]")]
+        public IActionResult Test()
+        {
+            return View();
+        }
+
         public class WeatherForecast
         {
             public string DateFormatted { get; set; }
