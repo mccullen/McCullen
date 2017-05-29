@@ -22,6 +22,7 @@ export class TicTacToe {
     public gameSettings: any;
     public selectedPlayOption: KeyValue<PlayOption, string>;
     humanFirst: boolean;
+    currentPlayer: string;
 
     // Would it be better to inject a board object instead of the factory?
     constructor(
@@ -43,22 +44,31 @@ export class TicTacToe {
             }
         }
     }
-    public activate() {
+    getGameSettings() {
+
+    }
+    public canActivate() {
         // Get settings from the user
-        return this.dialogService.open({ viewModel: GameSettings })
-            .whenClosed(response => {
-                if (!response.wasCancelled) {
-                    console.log(response.output);
-                    this.nRows = response.output.nRows;
-                    this.nColumns = response.output.nColumns;
-                    this.showState = response.output.showState;
-                    this.showDepth = response.output.showDepth;
-                    this.selectedPlayOption = response.output.selectedPlayOption;
-                    this.humanFirst = response.output.humanFirst;
-                    this.board = boardFactory({numRows: this.nRows, numColumns: this.nColumns});
-                    this.computerPlayer = computerPlayerFactory();
-                }
-            });
+        let promise = new Promise<boolean>((resolve, reject) => {
+            this.dialogService.open({ viewModel: GameSettings })
+                .whenClosed(response => {
+                    if (!response.wasCancelled) {
+                        this.nRows = response.output.nRows;
+                        this.nColumns = response.output.nColumns;
+                        this.showState = response.output.showState;
+                        this.showDepth = response.output.showDepth;
+                        this.selectedPlayOption = response.output.selectedPlayOption;
+                        this.humanFirst = response.output.humanFirst;
+                        this.board = boardFactory({ numRows: this.nRows, numColumns: this.nColumns });
+                        this.currentPlayer = this.board.getCurrentPlayer();
+                        this.computerPlayer = computerPlayerFactory();
+                        resolve(true);
+                    } else {
+                        reject(false);
+                    }
+                });
+        });
+        return promise;
     }
     private readonly winClass: string = "win";
     private readonly loseClass: string = "lose";
@@ -71,7 +81,8 @@ export class TicTacToe {
 
         // Place piece
         square.innerHTML = this.board.getCurrentPlayer();
-        this.board.playPiece({row: row, column: column});
+        this.board.playPiece({ row: row, column: column });
+        this.currentPlayer = this.board.getCurrentPlayer();
 
         let state = this.board.getState();
         if (state !== this.board.state.unfinished) {
@@ -91,14 +102,17 @@ export class TicTacToe {
         this.updateSquareDisplay();
     }
     onReset() {
-        // Enable all the squares
-        let squares = $("." + this.squareClass);
-        squares.prop({ disabled: false });
 
         // Reactivate page and update the squares with selected options
-        this.activate().then((response) => {
+        this.canActivate().then((response) => {
             //this.updateSquareDisplay();
-            this.attached();
+            //debugger;
+            if (response) {
+                // Enable all the squares
+                let squares = $("." + this.squareClass);
+                squares.prop({ disabled: false });
+                this.attached();
+            }
         });
     }
     private get stateClasses() {

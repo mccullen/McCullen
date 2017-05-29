@@ -1,6 +1,7 @@
 ﻿<template>
     <require from="./tic-tac-toe.css"></require>
     <h1>Tic-Tac-Toe!</h1>
+    ${currentPlayer}'s turn
     <table>
         <tr repeat.for="row of board.getPieces()">
             <td repeat.for="piece of row">
