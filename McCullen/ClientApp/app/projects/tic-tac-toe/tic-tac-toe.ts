@@ -21,6 +21,7 @@ export class TicTacToe {
     public showDepth: boolean;
     public gameSettings: any;
     public selectedPlayOption: KeyValue<PlayOption, string>;
+    humanFirst: boolean;
 
     // Would it be better to inject a board object instead of the factory?
     constructor(
@@ -32,6 +33,15 @@ export class TicTacToe {
     attached() {
 
         this.updateSquareDisplay();
+        if (!this.humanFirst) {
+            this.makeComputerPlayerMove();
+        }
+        if (this.selectedPlayOption.key === PlayOption.ComputerVsComputer) {
+            $("." + this.squareClass).prop({ disabled: true });
+            while (this.board.getState() === this.board.state.unfinished) {
+                this.makeComputerPlayerMove();
+            }
+        }
     }
     public activate() {
         // Get settings from the user
@@ -44,10 +54,9 @@ export class TicTacToe {
                     this.showState = response.output.showState;
                     this.showDepth = response.output.showDepth;
                     this.selectedPlayOption = response.output.selectedPlayOption;
+                    this.humanFirst = response.output.humanFirst;
                     this.board = boardFactory({numRows: this.nRows, numColumns: this.nColumns});
                     this.computerPlayer = computerPlayerFactory();
-
-                    //this.updateSquareDisplay();
                 }
             });
     }
@@ -82,13 +91,15 @@ export class TicTacToe {
         this.updateSquareDisplay();
     }
     onReset() {
-        //let squares = $("." + this.squareClass);
-        //squares.prop({ disabled: false });
+        // Enable all the squares
+        let squares = $("." + this.squareClass);
+        squares.prop({ disabled: false });
+
+        // Reactivate page and update the squares with selected options
         this.activate().then((response) => {
-            debugger;
-            this.updateSquareDisplay();
+            //this.updateSquareDisplay();
+            this.attached();
         });
-        //this.router.navigateToRoute("tic-tac-toe");
     }
     private get stateClasses() {
         return this.winClass + " " + this.loseClass + " " + this.tieClass;
@@ -100,19 +111,25 @@ export class TicTacToe {
     }
     private readonly squareClass = "square";
     private updateSquareDisplay() {
+        // Remove classes that indicate the state of the square so you can update it
         $("." + this.squareClass).removeClass(this.stateClasses);
 
-        if (this.showState) {
-            let moveValues = this.computerPlayer.getMoveValues(this.board);
-            for (let iMove = 0; iMove < moveValues.length; ++iMove) {
-                let square = this.getSquare(moveValues[iMove].row, moveValues[iMove].column);
+        // Get the depth and state information of all empty squares
+        let moveValues = this.computerPlayer.getMoveValues(this.board);
 
-                if (this.showDepth) {
-                    square.innerHTML = moveValues[iMove].depth;
-                } else {
-                    square.innerHTML = "";
-                }
+        // Update the display of each non-empty square
+        for (let iMove = 0; iMove < moveValues.length; ++iMove) {
+            let square = this.getSquare(moveValues[iMove].row, moveValues[iMove].column);
 
+            if (this.showDepth) {
+                // Show depth checked. Show depth information
+                square.innerHTML = moveValues[iMove].depth;
+            } else {
+                square.innerHTML = "";
+            }
+
+            if (this.showState) {
+                // Show state checked. Show state information
                 if (moveValues[iMove].state === this.board.state.draw) {
                     $(square).addClass(this.tieClass);
                 } else if (this.currentPlayerWins(moveValues[iMove].state)) {
@@ -123,23 +140,17 @@ export class TicTacToe {
             }
         }
     }
+    makeComputerPlayerMove() {
+        let bestMove = this.computerPlayer.getBestMove(this.board);
+        this.playPiece(bestMove.row, bestMove.column);
+    }
     public onSquareClick(row: number, column: number) {
         this.playPiece(row, column);
 
         let state = this.board.getState();
         if (this.selectedPlayOption.key === PlayOption.HumanVsComputer && state === this.board.state.unfinished) {
             // It is computer player's turn. Make his or her move.
-            let bestMove = this.computerPlayer.getBestMove(this.board);
-            this.playPiece(bestMove.row, bestMove.column);
-
-            // Check the state of the board to see if the computer wins
-            /*
-            if (state === this.board.state.draw) {
-                alert("draw");
-            } else if (state !== this.board.state.unfinished) {
-                alert("I win!");
-            }
-            */
+            this.makeComputerPlayerMove();
         }
     }
     private getSquareId(row: number, column: number) {

@@ -45,6 +45,14 @@
                             ${ option.value }
                         </label>
                     </div>
+                    Key: ${selectedPlayOption.key}
+                    Value: ${selectedPlayOption.value}
+                    <!-- Play Order -->
+                    <div class="checkbox" if.bind="selectedPlayOption.key === 1">
+                        <label>
+                            <input type="checkbox" checked.bind="humanFirst">Go first?
+                        </label>
+                    </div>
                 </form>
             </div>
             <!-- Footer -->
