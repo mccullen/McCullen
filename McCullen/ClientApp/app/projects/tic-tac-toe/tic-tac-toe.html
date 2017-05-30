@@ -3,9 +3,9 @@
     <h1>Tic-Tac-Toe!</h1>
     ${currentPlayer}'s turn
     <table id="tic-tac-toe">
-        <tr repeat.for="row of board.getPieces()">
+        <tr repeat.for="row of pieces">
             <td repeat.for="piece of row">
-                <button class="btn square" id="${getSquareId($parent.$index, $index)}" 
+                <button class="btn square" id="sq-${$parent.$index}-${$index}" 
                         click.delegate="onSquareClick($parent.$index, $index)">
                 </button>
             </td>

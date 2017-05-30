@@ -23,6 +23,7 @@ export class TicTacToe {
     public selectedPlayOption: KeyValue<PlayOption, string>;
     humanFirst: boolean;
     currentPlayer: string;
+    pieces: number[][];
 
     // Would it be better to inject a board object instead of the factory?
     constructor(
@@ -62,6 +63,7 @@ export class TicTacToe {
                         this.board = boardFactory({ numRows: this.nRows, numColumns: this.nColumns });
                         this.currentPlayer = this.board.getCurrentPlayer();
                         this.computerPlayer = computerPlayerFactory();
+                        this.pieces = this.board.getPieces();
                         resolve(true);
                     } else {
                         reject(false);
