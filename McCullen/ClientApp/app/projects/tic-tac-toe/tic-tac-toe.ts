@@ -135,30 +135,32 @@ export class TicTacToe {
         $("." + this.squareClass).removeClass(this.stateClasses);
 
         // Get the depth and state information of all empty squares
-        let moveValues = this.computerPlayer.getMoveValues(this.board);
+        let promise = new Promise((resolve, reject) => {
+            let moveValues = this.computerPlayer.getMoveValues(this.board);
+            // Update the display of each non-empty square
+            for (let iMove = 0; iMove < moveValues.length; ++iMove) {
+                let square = this.getSquare(moveValues[iMove].row, moveValues[iMove].column);
 
-        // Update the display of each non-empty square
-        for (let iMove = 0; iMove < moveValues.length; ++iMove) {
-            let square = this.getSquare(moveValues[iMove].row, moveValues[iMove].column);
-
-            if (this.showDepth) {
-                // Show depth checked. Show depth information
-                square.innerHTML = moveValues[iMove].depth;
-            } else {
-                square.innerHTML = "";
-            }
-
-            if (this.showState) {
-                // Show state checked. Show state information
-                if (moveValues[iMove].state === this.board.state.draw) {
-                    $(square).addClass(this.tieClass);
-                } else if (this.currentPlayerWins(moveValues[iMove].state)) {
-                    $(square).addClass(this.winClass);
+                if (this.showDepth) {
+                    // Show depth checked. Show depth information
+                    square.innerHTML = moveValues[iMove].depth;
                 } else {
-                    $(square).addClass(this.loseClass);
+                    square.innerHTML = "";
+                }
+
+                if (this.showState) {
+                    // Show state checked. Show state information
+                    if (moveValues[iMove].state === this.board.state.draw) {
+                        $(square).addClass(this.tieClass);
+                    } else if (this.currentPlayerWins(moveValues[iMove].state)) {
+                        $(square).addClass(this.winClass);
+                    } else {
+                        $(square).addClass(this.loseClass);
+                    }
                 }
             }
-        }
+        });
+
     }
     makeComputerPlayerMove() {
         //$("." + this.squareClass).prop({ disabled: true });
