@@ -81,7 +81,9 @@ export class TicTacToe {
 
         // Place piece
         square.innerHTML = this.board.getCurrentPlayer();
-        $(square).fadeIn(3000);
+        $(square).fadeOut(1);
+        $(square).fadeIn(1000);
+        //$(square).animate({ backgroundColor: "white" }, 10000);
         this.board.playPiece({ row: row, column: column });
         this.currentPlayer = this.board.getCurrentPlayer();
 
@@ -103,7 +105,8 @@ export class TicTacToe {
         this.updateSquareDisplay();
     }
     onReset() {
-
+        //this.router.navigateToRoute("tic-tac-toe");
+        //this.router.navigateToRoute("projects/tic-tac-toe");
         // Reactivate page and update the squares with selected options
         this.canActivate().then((response) => {
             //this.updateSquareDisplay();
