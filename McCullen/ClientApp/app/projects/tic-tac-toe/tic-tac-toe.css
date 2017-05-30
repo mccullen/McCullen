@@ -1,9 +1,9 @@
 ﻿/* Styles for the squares */
 .square {
     color: black;
-    background-color: rgba(0, 255, 255, 0.5);
     width: 65px;
     height: 65px;
+    border-radius: 0;
 }
 
 .win {
@@ -16,4 +16,8 @@
 
 .tie {
     background-color: rgba(255, 216, 0, 0.5);
+}
+
+td {
+    border: 5px solid black;
 }
