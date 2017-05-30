@@ -2,7 +2,7 @@
     <require from="./tic-tac-toe.css"></require>
     <h1>Tic-Tac-Toe!</h1>
     ${currentPlayer}'s turn
-    <table>
+    <table id="tic-tac-toe">
         <tr repeat.for="row of board.getPieces()">
             <td repeat.for="piece of row">
                 <button class="btn square" id="${getSquareId($parent.$index, $index)}" 
