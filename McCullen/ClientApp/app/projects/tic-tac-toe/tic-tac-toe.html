@@ -12,7 +12,7 @@
         </tr>
     </table>
 
-    <input type="checkbox" checked.bind="showState" > Show state? <br>
-    <input type="checkbox" checked.bind="showDepth" > Show depth? <br>
-    <button click.delegate="onReset()">Reset</button>
+    <div class="checkbox"><label><input type="checkbox" checked.bind="showState" > Show state?</label></div>
+    <div class="checkbox"><label><input type="checkbox" checked.bind="showDepth" > Show depth?</label></div>
+    <button class="btn btn-danger" click.delegate="onReset()">Reset</button>
 </template>

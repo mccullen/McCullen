@@ -161,8 +161,11 @@ export class TicTacToe {
         }
     }
     makeComputerPlayerMove() {
-        let bestMove = this.computerPlayer.getBestMove(this.board);
-        this.playPiece(bestMove.row, bestMove.column);
+        //$("." + this.squareClass).prop({ disabled: true });
+        //setTimeout(() => {
+            let bestMove = this.computerPlayer.getBestMove(this.board);
+            this.playPiece(bestMove.row, bestMove.column);
+        //}, 1000);
     }
     public onSquareClick(row: number, column: number) {
         this.playPiece(row, column);
