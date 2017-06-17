@@ -1,5 +1,6 @@
 ﻿import { boardFactory } from "./boardFactory";
-import { computerPlayerFactory } from "./computerPlayerFactory";
+//import { computerPlayerFactory } from "./computerPlayerFactory";
+import { ComputerPlayerService } from "./ComputerPlayerService";
 import { inject, autoinject, bindable } from "aurelia-framework";
 import { DialogService } from "aurelia-dialog";
 import { GameSettings, PlayOption } from "./game-settings";
@@ -28,9 +29,11 @@ export class TicTacToe {
     // Would it be better to inject a board object instead of the factory?
     constructor(
             public dialogService: DialogService,
-            public router: Router) {
+            public router: Router,
+            public computerPlayerService: ComputerPlayerService) {
         this.dialogService = dialogService;
         this.router = router;
+        this.computerPlayerService = computerPlayerService;
     }
     attached() {
 
@@ -62,7 +65,7 @@ export class TicTacToe {
                         this.humanFirst = response.output.humanFirst;
                         this.board = boardFactory({ numRows: this.nRows, numColumns: this.nColumns });
                         this.currentPlayer = this.board.getCurrentPlayer();
-                        this.computerPlayer = computerPlayerFactory();
+                        //this.computerPlayer = computerPlayerFactory();
                         this.pieces = this.board.getPieces();
                         resolve(true);
                     } else {
@@ -135,31 +138,32 @@ export class TicTacToe {
         $("." + this.squareClass).removeClass(this.stateClasses);
 
         // Get the depth and state information of all empty squares
-        let promise = new Promise((resolve, reject) => {
-            let moveValues = this.computerPlayer.getMoveValues(this.board);
-            // Update the display of each non-empty square
-            for (let iMove = 0; iMove < moveValues.length; ++iMove) {
-                let square = this.getSquare(moveValues[iMove].row, moveValues[iMove].column);
+        this.computerPlayerService.getMoveValues(this.board)
+            .then((result: any[]) => {
+                let moveValues = result;
+                // Update the display of each non-empty square
+                for (let iMove = 0; iMove < moveValues.length; ++iMove) {
+                    let square = this.getSquare(moveValues[iMove].row, moveValues[iMove].column);
 
-                if (this.showDepth) {
-                    // Show depth checked. Show depth information
-                    square.innerHTML = moveValues[iMove].depth;
-                } else {
-                    square.innerHTML = "";
-                }
-
-                if (this.showState) {
-                    // Show state checked. Show state information
-                    if (moveValues[iMove].state === this.board.state.draw) {
-                        $(square).addClass(this.tieClass);
-                    } else if (this.currentPlayerWins(moveValues[iMove].state)) {
-                        $(square).addClass(this.winClass);
+                    if (this.showDepth) {
+                        // Show depth checked. Show depth information
+                        square.innerHTML = moveValues[iMove].depth;
                     } else {
-                        $(square).addClass(this.loseClass);
+                        square.innerHTML = "";
+                    }
+
+                    if (this.showState) {
+                        // Show state checked. Show state information
+                        if (moveValues[iMove].state === this.board.state.draw) {
+                            $(square).addClass(this.tieClass);
+                        } else if (this.currentPlayerWins(moveValues[iMove].state)) {
+                            $(square).addClass(this.winClass);
+                        } else {
+                            $(square).addClass(this.loseClass);
+                        }
                     }
                 }
-            }
-        });
+            });
 
     }
     makeComputerPlayerMove() {

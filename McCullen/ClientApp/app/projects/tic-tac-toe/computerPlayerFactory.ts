@@ -143,6 +143,9 @@ var computerPlayerFactory: any = function (spec) {
 
         return moveValues;
     };
+    computerPlayer.hasBoard = function (board) {
+        return mBoardToMoves.hasOwnProperty(board);
+    };
     
     computerPlayer.getMoveValue = function (board, row, column) {
         if (!board.isEmpty({row: row, column: column})) {
@@ -162,6 +165,10 @@ var computerPlayerFactory: any = function (spec) {
 
     computerPlayer.getBoardToMoves = function () {
         return mBoardToMoves;
+    };
+
+    computerPlayer.setBoardToMoves = function (boardToMoves) {
+        mBoardToMoves = boardToMoves;
     };
 
     // Get best move {row: ?, column: ?} given a board
