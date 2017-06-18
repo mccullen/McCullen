@@ -17,14 +17,11 @@ export class ComputerPlayerService {
                 resolve(moveValues);
             } else {
                 // Try to get the hashmap for this board from server
-                this.http.fetch("/api/TicTacToe/GetBoardToMoves", {
-                    method: "post",
-                    body: json({ rows: board.getNumRows(), columns: board.getNumColumns() })
-                })
-                .then(response => response.json())
+                let payload = {rows: board.getNumRows(), columns: board.getNumColumns() };
+                $.post("/api/TicTacToe/GetBoardToMoves", payload)
                 .then(data => {
                     debugger;
-                    if (!data) {
+                    if (data) {
                         $.extend(this.boardToMoves, data);
                     } else {
                         let computerPlayer = computerPlayerFactory();

@@ -21,7 +21,8 @@ namespace McCullen.Controllers
         [HttpPost("[action]")]
         public Dictionary<string, List<MoveValue>> GetBoardToMoves(int rows, int columns)
         {
-            return new Dictionary<string, List<MoveValue>>();
+            return null;
+            //return new Dictionary<string, List<MoveValue>>();
         }
         [HttpPost("[action]")]
         public bool SerializeBoardToMoves(Dictionary<string, List<MoveValue>> boardToMoves)
