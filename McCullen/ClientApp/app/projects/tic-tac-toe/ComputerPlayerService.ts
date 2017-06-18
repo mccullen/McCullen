@@ -1,14 +1,16 @@
 ﻿import { computerPlayerFactory } from "./computerPlayerFactory";
-import { HttpClient, json} from 'aurelia-fetch-client';
 import { inject, autoinject, bindable } from "aurelia-framework";
 import * as $ from "jquery";
 
 @autoinject()
 export class ComputerPlayerService {
-    constructor(public http: HttpClient) {
-        this.http = http;
-    }
     private boardToMoves = {};
+    getBestMove(board: any) {
+        let computerPlayer = computerPlayerFactory();
+        computerPlayer.setBoardToMoves(this.boardToMoves);
+        let bestMove = computerPlayer.getBestMove(board);
+        return bestMove;
+    }
     getMoveValues(board: any) {
         let promise = new Promise((resolve, reject) => {
             let moveValues;

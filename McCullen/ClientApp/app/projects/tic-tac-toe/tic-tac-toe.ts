@@ -79,7 +79,6 @@ export class TicTacToe {
     private readonly loseClass: string = "lose";
     private readonly tieClass: string = "tie";
     playPiece(row: number, column: number) {
-
         // Disable square of the move just played
         let square = document.getElementById(this.getSquareId(row, column)) as HTMLButtonElement;
         square.disabled = true;
@@ -107,7 +106,7 @@ export class TicTacToe {
 
         // Remove state color indication classes and depth numbers and update the non-empty squares
         $(square).removeClass(this.stateClasses);
-        this.updateSquareDisplay();
+        return this.updateSquareDisplay();
     }
     onReset() {
         //this.router.navigateToRoute("tic-tac-toe");
@@ -138,7 +137,7 @@ export class TicTacToe {
         $("." + this.squareClass).removeClass(this.stateClasses);
 
         // Get the depth and state information of all empty squares
-        this.computerPlayerService.getMoveValues(this.board)
+        return this.computerPlayerService.getMoveValues(this.board)
             .then((result: any[]) => {
                 let moveValues = result;
                 // Update the display of each non-empty square
@@ -169,18 +168,19 @@ export class TicTacToe {
     makeComputerPlayerMove() {
         //$("." + this.squareClass).prop({ disabled: true });
         //setTimeout(() => {
-            let bestMove = this.computerPlayer.getBestMove(this.board);
+            let bestMove = this.computerPlayerService.getBestMove(this.board);
             this.playPiece(bestMove.row, bestMove.column);
         //}, 1000);
     }
     public onSquareClick(row: number, column: number) {
-        this.playPiece(row, column);
+        this.playPiece(row, column).then(() => {
+            let state = this.board.getState();
+            if (this.selectedPlayOption.key === PlayOption.HumanVsComputer && state === this.board.state.unfinished) {
+                // It is computer player's turn. Make his or her move.
+                this.makeComputerPlayerMove();
+            }
+        });
 
-        let state = this.board.getState();
-        if (this.selectedPlayOption.key === PlayOption.HumanVsComputer && state === this.board.state.unfinished) {
-            // It is computer player's turn. Make his or her move.
-            this.makeComputerPlayerMove();
-        }
     }
     private getSquareId(row: number, column: number) {
         return "sq" + "-" + row + "-" + column;
