@@ -26,10 +26,14 @@ export class ComputerPlayerService {
                     } else {
                         let computerPlayer = computerPlayerFactory();
                         moveValues = computerPlayer.getMoveValues(board);
-                        this.http.fetch("/api/TicTacToe/SerializeBoardToMoves", {
-                            method: "post",
-                            body: json({ boardToMoves: computerPlayer.getBoardToMoves() })
-                        })
+                        $.ajax({
+                            method: "POST",
+                            url: "/api/TicTacToe/SerializeBoardToMoves",
+                            contentType: "application/json",
+                            data: JSON.stringify(computerPlayer.getBoardToMoves())
+                            //data: computerPlayer.getBoardToMoves()
+                            //data: { boardToMoves: computerPlayer.getBoardToMoves() }});
+                        });
                     }
                     resolve(moveValues);
                 });

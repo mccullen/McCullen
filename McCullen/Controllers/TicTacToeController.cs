@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -22,10 +23,9 @@ namespace McCullen.Controllers
         public Dictionary<string, List<MoveValue>> GetBoardToMoves(int rows, int columns)
         {
             return null;
-            //return new Dictionary<string, List<MoveValue>>();
         }
         [HttpPost("[action]")]
-        public bool SerializeBoardToMoves(Dictionary<string, List<MoveValue>> boardToMoves)
+        public bool SerializeBoardToMoves([FromBody] Dictionary<string, List<MoveValue>> boardToMoves)
         {
             return false;
         }
