@@ -20,15 +20,15 @@ export class ComputerPlayerService {
                 let payload = {rows: board.getNumRows(), columns: board.getNumColumns() };
                 $.post("/api/TicTacToe/GetBoardToMoves", payload)
                 .then(data => {
-                    debugger;
                     if (data) {
                         $.extend(this.boardToMoves, data);
+                        moveValues = this.boardToMoves[board];
                     } else {
                         let computerPlayer = computerPlayerFactory();
                         moveValues = computerPlayer.getMoveValues(board);
                         $.ajax({
                             method: "POST",
-                            url: "/api/TicTacToe/SerializeBoardToMoves",
+                            url: "/api/TicTacToe/SerializeBoardToMoves?rows=" + payload.rows + "&columns=" + payload.columns,
                             contentType: "application/json",
                             data: JSON.stringify(computerPlayer.getBoardToMoves())
                         });
