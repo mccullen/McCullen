@@ -37,16 +37,17 @@ export class TicTacToe {
     }
     attached() {
 
-        this.updateSquareDisplay();
-        if (this.selectedPlayOption.key === PlayOption.HumanVsComputer && !this.humanFirst) {
-            this.makeComputerPlayerMove();
-        }
-        if (this.selectedPlayOption.key === PlayOption.ComputerVsComputer) {
-            $("." + this.squareClass).prop({ disabled: true });
-            while (this.board.getState() === this.board.state.unfinished) {
+        this.updateSquareDisplay().then(() => {
+            if (this.selectedPlayOption.key === PlayOption.HumanVsComputer && !this.humanFirst) {
                 this.makeComputerPlayerMove();
             }
-        }
+            if (this.selectedPlayOption.key === PlayOption.ComputerVsComputer) {
+                $("." + this.squareClass).prop({ disabled: true });
+                while (this.board.getState() === this.board.state.unfinished) {
+                    this.makeComputerPlayerMove();
+                }
+            }
+        });
     }
     getGameSettings() {
 
