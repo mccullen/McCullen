@@ -32,6 +32,13 @@ namespace McCullen.Controllers
             string path = hostingEnvironment_.WebRootPath + "/Resources/TicTacToe/" + fileName;
             return path;
         }
+        /// <summary>
+        /// Get a hashmap which maps the board to the move values. If the solution is not in the solution path,
+        /// return null.
+        /// </summary>
+        /// <param name="rows">The number of rows for the board.</param>
+        /// <param name="columns">The number of columns for the board.</param>
+        /// <returns></returns>
         [HttpPost("[action]")]
         public Dictionary<string, List<MoveValue>> GetBoardToMoves(int rows, int columns)
         {
@@ -46,6 +53,13 @@ namespace McCullen.Controllers
 
             return boardToMoves;
         }
+        /// <summary>
+        /// Store the boardToMoves hashmap into a solution file so it doesn't have to be calculated on the client again
+        /// and you can just deserialize it and send it as a json in the response body.
+        /// </summary>
+        /// <param name="boardToMoves">The hashmap mapping the board state to the values (state and depth) that needs to be persisted</param>
+        /// <param name="rows">The number of rows for the board.</param>
+        /// <param name="columns">The number of columns for the board.</param>
         [HttpPost("[action]")]
         public void SerializeBoardToMoves([FromBody] Dictionary<string, List<MoveValue>> boardToMoves, [FromQuery] int rows, [FromQuery] int columns)
         {
