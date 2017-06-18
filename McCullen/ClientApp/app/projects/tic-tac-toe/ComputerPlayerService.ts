@@ -31,8 +31,6 @@ export class ComputerPlayerService {
                             url: "/api/TicTacToe/SerializeBoardToMoves",
                             contentType: "application/json",
                             data: JSON.stringify(computerPlayer.getBoardToMoves())
-                            //data: computerPlayer.getBoardToMoves()
-                            //data: { boardToMoves: computerPlayer.getBoardToMoves() }});
                         });
                     }
                     resolve(moveValues);

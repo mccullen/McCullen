@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.IO;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -25,9 +26,10 @@ namespace McCullen.Controllers
             return null;
         }
         [HttpPost("[action]")]
-        public bool SerializeBoardToMoves([FromBody] Dictionary<string, List<MoveValue>> boardToMoves)
+        public void SerializeBoardToMoves([FromBody] Dictionary<string, List<MoveValue>> boardToMoves)
         {
-            return false;
+            string json = JsonConvert.SerializeObject(boardToMoves);
+            System.IO.File.WriteAllText(@"C:\Users\jeff\Desktop\test.txt", json);
         }
         // GET: api/values
         [HttpGet]
