@@ -166,12 +166,20 @@ export class TicTacToe {
             });
 
     }
+    private getUnplayedSquares() {
+        let unplayedSquares = $("." + this.squareClass + "." + this.tieClass)
+            .add("." + this.squareClass + "." + this.winClass)
+            .add("." + this.squareClass + "." + this.loseClass);
+        return unplayedSquares;
+    }
     makeComputerPlayerMove() {
-        //$("." + this.squareClass).prop({ disabled: true });
-        //setTimeout(() => {
+        $("." + this.squareClass).prop({ disabled: true });
+        setTimeout(() => {
             let bestMove = this.computerPlayerService.getBestMove(this.board);
-            this.playPiece(bestMove.row, bestMove.column);
-        //}, 1000);
+            this.playPiece(bestMove.row, bestMove.column).then(() => {
+                this.getUnplayedSquares().prop({ disabled: false });
+            });
+        }, 1000);
     }
     public onSquareClick(row: number, column: number) {
         this.playPiece(row, column).then(() => {
